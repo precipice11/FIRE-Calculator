@@ -1,29 +1,26 @@
-const calculate_btn = document.getElementById("calculate-button");
-calculate_btn.addEventListener("click", calculate);
+document.getElementById("calculate-button").addEventListener("click", calculate);
 
 const ctxWithInterest = document.getElementById('chartWithInterest').getContext('2d');
 const ctxWithoutInterest = document.getElementById('chartWithoutInterest').getContext('2d');
 
-let chartWithInterest;
-let chartWithoutInterest;
+let chartWithInterest, chartWithoutInterest;
+
+function formatCurrency(value) {
+    return `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
 
 function calculate() {
-    // Get input values
     let P = Number(document.getElementById("starting-balance").value);
     let r = Number(document.getElementById("interest-rate").value) / 100;
     let n = Number(document.getElementById("compound").value);
     let t = Number(document.getElementById("years").value);
     let PMT = Number(document.getElementById("contribution").value);
 
-    let years = [];
-    let totalsWithInterest = [];
-    let totalsWithoutInterest = [];
-
-    let totalWithoutInterest = P; // Start with initial balance
-    let totalWithInterest = P; // Start with initial balance
+    let years = [], totalsWithInterest = [], totalsWithoutInterest = [];
+    let totalWithoutInterest = P, totalWithInterest = P;
 
     for (let year = 1; year <= t; year++) {
-        totalWithoutInterest += PMT * 12; // Assuming monthly contributions
+        totalWithoutInterest += PMT * 12; // Monthly contributions
 
         let temp = Math.pow(1 + (r / n), n * year);
         let result1 = P * temp;
@@ -35,13 +32,32 @@ function calculate() {
         totalsWithInterest.push(totalWithInterest);
     }
 
-    document.getElementById("result").innerText = `Total Amount: $${totalWithInterest.toFixed(2)}`;
+    let totalInvested = P + (PMT * 12 * t);
+    let totalInterest = totalWithInterest - totalInvested;
+    let annualIncome = totalWithInterest * (r || 0.04); // Default to 4% withdrawal rule
 
-    // Destroy existing charts if they exist
+    // Update results with formatted currency
+    document.getElementById("result").innerText = formatCurrency(totalWithInterest);
+    document.getElementById("total-invested").innerText = formatCurrency(totalInvested);
+    document.getElementById("total-interest").innerText = formatCurrency(totalInterest);
+    document.getElementById("interest-rate-display").innerText = (r * 100).toFixed(2);
+    document.getElementById("annual-income").innerText = formatCurrency(annualIncome);
+
+    // Handle tax calculations
+    let taxRateInput = document.getElementById("tax-rate").value;
+    let taxRate = taxRateInput === "" ? 0 : Number(taxRateInput) / 100; // Default to 0% if empty
+
+    let afterTaxIncome = annualIncome * (1 - taxRate);
+    let monthlyIncome = afterTaxIncome / 12;
+
+    document.getElementById("tax-rate-display").innerText = (taxRate * 100).toFixed(2);
+    document.getElementById("after-tax-income").innerText = formatCurrency(afterTaxIncome);
+    document.getElementById("monthly-income").innerText = formatCurrency(monthlyIncome);
+
+    // Chart updates
     if (chartWithInterest) chartWithInterest.destroy();
     if (chartWithoutInterest) chartWithoutInterest.destroy();
 
-    // Chart with interest
     chartWithInterest = new Chart(ctxWithInterest, {
         type: 'line',
         data: {
@@ -55,17 +71,9 @@ function calculate() {
                 fill: true
             }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { title: { display: true, text: 'Years' } },
-                y: { title: { display: true, text: 'Total Amount' }, beginAtZero: true }
-            }
-        }
+        options: { responsive: true, maintainAspectRatio: false }
     });
 
-    // Chart without interest
     chartWithoutInterest = new Chart(ctxWithoutInterest, {
         type: 'line',
         data: {
@@ -79,13 +87,6 @@ function calculate() {
                 fill: true
             }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: { title: { display: true, text: 'Years' } },
-                y: { title: { display: true, text: 'Total Amount' }, beginAtZero: true }
-            }
-        }
+        options: { responsive: true, maintainAspectRatio: false }
     });
 }

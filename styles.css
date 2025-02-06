@@ -11,15 +11,16 @@ body {
     gap: 3rem;
 }
 
+/* Title Styling */
 .title {
     font-weight: 200;
     margin-bottom: 3rem;
     margin-top: 5rem;
     font-size: 2.25rem;
     line-height: 2.5rem;
-
 }
 
+/* Input Field Styling */
 .input-block {
     display: flex;
     flex-direction: column;
@@ -29,28 +30,7 @@ body {
     line-height: 1.75rem;
 }
 
-#calculate-button {
-    width: 150px;
-    border-radius: 10px;
-    margin: 0 auto;
-    display: block;
-    padding: 10px;
-    border: none;
-    opacity: 50%;
-    background-color: darkblue;
-}
-
-.input-block input {
-    width: 150px;
-    border-radius: 10px;
-    margin: 0 auto;
-    display: block;
-    padding: 10px;
-    border: none;
-    opacity: 50%;
-    background-color: darkblue;
-}
-
+.input-block input, 
 #compound {
     width: 150px;
     border-radius: 10px;
@@ -58,14 +38,44 @@ body {
     display: block;
     padding: 10px;
     border: none;
-    opacity: 50%;
     background-color: darkblue;
+    color: white;
+    opacity: 80%;
+    transition: opacity 0.2s ease-in-out;
 }
 
+.input-block input:focus, 
+#compound:focus {
+    opacity: 100%;
+}
+
+/* Button Styling */
+#calculate-button {
+    width: 150px;
+    border-radius: 10px;
+    margin: 0 auto;
+    display: block;
+    padding: 10px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    opacity: 80%;
+    transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+#calculate-button:hover {
+    opacity: 100%;
+}
+
+#calculate-button:active {
+    background-color: navy;
+}
+
+/* Chart Container */
 .chart-container {
     display: flex;
     justify-content: center;
-    gap: 2rem; /* Adds spacing between charts */
+    gap: 2rem; /* Space between charts */
     margin-top: 2rem;
 }
 
@@ -80,4 +90,32 @@ body {
 canvas {
     width: 100% !important;
     height: 100% !important;
+}
+
+/* Result Block Styling */
+.res-block {
+    width: 250px;
+    border-radius: 10px;
+    margin: 0 auto;
+    display: block;
+    padding: 20px;
+    border: none;
+    background-color: darkblue;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    opacity: 80%;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.res-block:hover {
+    opacity: 100%;
+}
+
+/* Additional Result Details */
+.result-details {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-top: 10px;
+    text-align: center;
 }

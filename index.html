@@ -3,43 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>FIRE Investment Calculator</title>
+    <link rel="icon" href="https://thumbs.dreamstime.com/z/sun-smile-face-icon-kawaii-clipart-vector-illustration-sticker-cute-animated-cartoon-graphic-isolated-white-background-266925104.jpg">
     <link rel="stylesheet" href="styles.css">
     
 </head>
 <body>
     <div class="interest-calculator">
         <h2 class="title">FIRE Investment Calculator</h2>
-        <p class="sub-text">Calculate the future value of a investment you make for a number of years.</p>
+        <p class="sub-text">Calculate the future value of an investment you make for a number of years.</p>
     </div>
+    
     <div class="input-block">
         <label for="starting-balance">Starting Balance: </label>
-        <input type="text" id="starting-balance" name="starting-balance">
+        <input type="text" id="starting-balance">
     </div>
     <div class="input-block">
         <label for="contribution">Contribution: </label>
-        <input type="text" id="contribution" name="contribution">
+        <input type="text" id="contribution">
     </div>
     <div class="input-block">
         <label for="years">Years: </label>
-        <input type="text" id="years" name="years">
+        <input type="text" id="years">
     </div>
     <div class="input-block">
-        <label for="interest-rate">Interest Rate (%): </label>
-        <input type="text" id="interest-rate" name="interest-rate">
+        <label for="interest-rate">Average Interest Rate (%):</label>
+        <input type="text" id="interest-rate">
     </div>
     <div class="input-block">
-        <label for="compound">Compound Frequency</label>
-        <select name="compound" id="compound">
+        <label for="compound">Compound Frequency:</label>
+        <select id="compound">
             <option value="365">Daily</option>
-            <option value="12" selected="selected">Monthly</option>
+            <option value="12" selected>Monthly</option>
             <option value="1">Annually</option>
         </select>
     </div>
+
+    <div class="input-block">
+        <label for="tax-rate">Tax Percentage on Withdrawal (%):</label>
+        <input type="text" id="tax-rate">
+    </div>
     
     <button id="calculate-button">Calculate</button>
-    <div id="result">0</div>
+    
 
+    <h2 class="title">Results</h2>
+
+    <div class="res-block">
+        Total Amount Earned: <span id="result">0</span>
+    </div>
+    
+    <div class="result-details">
+        <p>Total Amount Invested: <span id="total-invested">0</span></p>
+        <p>Total Interest Earned: <span id="total-interest">0</span></p>
+        <p>Annual Income at <span id="interest-rate-display">0</span>% of Total<span id="result"></span>: <span id="annual-income">0</span></p>
+    </div>
+    
+    <div class="result-details">
+        <p>After <span id="tax-rate-display">0</span>% to taxes, I take home: <span id="after-tax-income">0</span> per year</p>
+        <p>Monthly Take-Home: <span id="monthly-income">0</span></p>
+    </div>
+    
     <div class="chart-container">
         <div class="chart-wrapper">
             <canvas id="chartWithoutInterest"></canvas>
@@ -48,6 +72,7 @@
             <canvas id="chartWithInterest"></canvas>
         </div>
     </div>
+    
      
         
 </body>
